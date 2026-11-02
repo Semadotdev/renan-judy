@@ -7,8 +7,10 @@ A complete premium animated wedding invitation website for Judy Castillo and Ren
 - **Cinematic Envelope Reveal** - Interactive opening animation with disappearing wax seal, opening flap, sliding invitation card, and animated ships
 - **Elegant Design** - Uses the exact color palette: Milk (#FBF7F4), Oat (#E5DED2), Taupe (#A39382), Mocha (#685D54), Charcoal (#232323)
 - **Live Countdown** - Real-time countdown to December 28, 2026 in Asia/Manila timezone
-- **All Wedding Sections** - Hero invitation, countdown, celebration message, event details, dress code, RSVP form, closing section
-- **RSVP Form** - Validated form with localStorage storage (ready for Supabase integration)
+- **All Wedding Sections** - Prologue, hero invitation, our story, countdown, celebration, event details, wedding party, dress code, postcard gallery, RSVP, guestbook, FAQ, and closing scene
+- **Chapter Navigation** - Desktop progress rail and a compact mobile chapter bar that track the scroll position
+- **RSVP Form** - Two-step validated form with localStorage storage (ready for Supabase integration)
+- **Guestbook** - A local wishes wall with localStorage storage
 - **Music Toggle** - Optional royalty-free background music with user-controlled playback
 - **Responsive & Accessible** - Mobile-first design, keyboard navigation, touch friendly, reduced motion support
 - **Ships Animation** - Gentle animated ships throughout the site (replacing butterflies as requested)
@@ -57,12 +59,14 @@ npm run dev
 All wedding details are in a single configuration file: `src/config/weddingConfig.ts`
 
 You can easily update:
-- Couple names
-- Wedding date
-- Event details (venue, time) - leave as `null` to hide
+- Couple names and wedding date
+- Event details, schedule, venue, map, and calendar fields
+- Story chapters, wedding party, gallery images, and FAQ entries
 - Dress code colors and instructions
-- RSVP storage settings
+- RSVP and guestbook storage settings
 - Music settings
+
+Fields left as `null` or empty render designed "to be announced" placeholders instead of breaking the layout.
 
 ## RSVP Backend Integration
 
@@ -81,6 +85,13 @@ VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 
 ### Option 2: Other backends
 The form is structured to easily integrate with any backend API. Update the `handleSubmit` function in `RSVPForm.tsx`.
+
+## Quality Checks
+
+```bash
+npm run lint
+npm run build
+```
 
 ## Building for Production
 

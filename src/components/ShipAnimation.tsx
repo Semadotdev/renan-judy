@@ -1,46 +1,105 @@
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion';
 
 interface ShipAnimationProps {
-  count?: number
-  className?: string
+  count?: number;
+  className?: string;
 }
 
 const ShipSVG = () => (
-  <svg width="40" height="30" viewBox="0 0 40 30" fill="none" xmlns="http://www.w3.org/2000/svg" className="opacity-60">
-    <path d="M5 15 L35 15 L30 10 L10 10 Z" fill="none" stroke="#685D54" strokeWidth="1"/>
-    <path d="M10 10 L12 5 L15 10 Z" fill="#A39382" opacity="0.7"/>
-    <line x1="13" y1="5" x2="13" y2="10" stroke="#685D54" strokeWidth="0.5"/>
-    <ellipse cx="20" cy="16" rx="12" ry="2" fill="none" stroke="#685D54" strokeWidth="0.5" opacity="0.5"/>
+  <svg
+    width="112"
+    height="76"
+    viewBox="0 0 112 76"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className="drop-shadow-[0_10px_18px_rgba(0,0,0,0.18)]"
+  >
+    <path
+      d="M14 48 H98 L86 60 H26 L14 48 Z"
+      stroke="currentColor"
+      strokeWidth="1.2"
+      strokeLinejoin="round"
+    />
+    <path d="M50 48 V20" stroke="currentColor" strokeWidth="1" />
+    <path d="M67 48 V28" stroke="currentColor" strokeWidth="1" />
+    <path
+      d="M50 22 C58 27 65 34 65 42 H50 V22 Z"
+      stroke="currentColor"
+      strokeWidth="0.9"
+      fill="currentColor"
+      fillOpacity="0.08"
+    />
+    <path
+      d="M67 30 C74 34 79 39 79 46 H67 V30 Z"
+      stroke="currentColor"
+      strokeWidth="0.9"
+      fill="currentColor"
+      fillOpacity="0.06"
+    />
+    <path
+      d="M44 20 L50 27 L56 20"
+      stroke="currentColor"
+      strokeWidth="0.8"
+      strokeLinecap="round"
+    />
+    <path
+      d="M8 64 Q22 58 36 64 T64 64 T92 64 T108 64"
+      stroke="currentColor"
+      strokeWidth="0.8"
+      strokeLinecap="round"
+      opacity="0.45"
+    />
+    <path
+      d="M18 70 Q32 65 46 70 T74 70 T102 70"
+      stroke="currentColor"
+      strokeWidth="0.6"
+      strokeLinecap="round"
+      opacity="0.25"
+    />
   </svg>
-)
+);
 
-export default function ShipAnimation({ count = 3, className = "" }: ShipAnimationProps) {
+export default function ShipAnimation({
+  count = 3,
+  className = '',
+}: ShipAnimationProps) {
+  const reduceMotion = useReducedMotion();
+
+  if (reduceMotion) return null;
+
   return (
-    <div className={`absolute inset-0 pointer-events-none overflow-hidden ${className}`} aria-hidden="true">
-      {Array.from({ length: count }).map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute"
-          initial={{ 
-            x: -100, 
-            y: 20 + (i * 40),
-            opacity: 0 
-          }}
-          animate={{ 
-            x: '110vw',
-            y: [20 + (i * 40), 15 + (i * 40), 25 + (i * 40), 20 + (i * 40)],
-            opacity: [0, 0.6, 0.6, 0],
-          }}
-          transition={{ 
-            duration: 20 + i * 5,
-            repeat: Infinity,
-            delay: i * 8,
-            ease: "linear",
-          }}
-        >
-          <ShipSVG />
-        </motion.div>
-      ))}
+    <div
+      className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`}
+      aria-hidden="true"
+    >
+      {Array.from({ length: count }).map((_, index) => {
+        const reverse = index % 2 === 1;
+        const baseY = 18 + (index * 19) % 64;
+
+        return (
+          <motion.div
+            key={index}
+            className="absolute left-0 opacity-0"
+            style={{ top: `${baseY}%` }}
+            initial={{ x: reverse ? '110vw' : '-16vw' }}
+            animate={{
+              x: reverse ? '-16vw' : '110vw',
+              y: [0, -10, 4, 0],
+              opacity: [0, 0.45, 0.45, 0],
+            }}
+            transition={{
+              duration: 32 + index * 12,
+              repeat: Infinity,
+              delay: index * 9,
+              ease: 'linear',
+            }}
+          >
+            <div className={reverse ? 'scale-x-[-1]' : ''}>
+              <ShipSVG />
+            </div>
+          </motion.div>
+        );
+      })}
     </div>
-  )
+  );
 }

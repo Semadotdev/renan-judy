@@ -1,63 +1,67 @@
-import { motion } from 'framer-motion'
-import { weddingConfig } from '../config/weddingConfig'
+import { motion } from 'framer-motion';
+import { weddingConfig } from '../config/weddingConfig';
+import Reveal from './Reveal';
+import SectionHeading from './SectionHeading';
+
+const COLOR_NAMES = ['Milk', 'Oat', 'Taupe', 'Mocha', 'Charcoal'];
 
 export default function DressCode() {
+  const { dressCode } = weddingConfig;
+
   return (
-    <section className="py-16 px-4 bg-oat/30">
-      <div className="max-w-2xl mx-auto text-center">
-        <motion.h2 
-          className="font-serif text-3xl md:text-4xl mb-8 text-charcoal tracking-wide"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          DRESS CODE
-        </motion.h2>
-        
-        <motion.div
-          className="flex flex-wrap justify-center gap-4 mb-8"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-        >
-          {weddingConfig.dressCode.colors.map((color, index) => (
-            <motion.div
-              key={index}
-              className="w-16 h-16 border border-taupe/60 shadow-md"
-              style={{ backgroundColor: color }}
-              initial={{ scale: 0 }}
-              whileInView={{ scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: 0.2 + index * 0.1 }}
-              title={`Color ${index + 1}`}
-            />
+    <section id="dress" className="night-panel relative overflow-hidden py-24 text-milk sm:py-32">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-taupe/40 to-transparent" />
+
+      <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
+        <div className="grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:items-end lg:gap-20">
+          <SectionHeading
+            eyebrow="Chapter V"
+            title="Dress Code"
+            intro={dressCode.instructions ?? 'Come dressed in the colours of the evening.'}
+            dark
+          />
+
+          <Reveal delay={0.1}>
+            <div className="border-t border-taupe/25 pt-7">
+              <p className="eyebrow text-taupe">The palette</p>
+              <p className="mt-4 max-w-md font-body text-lg leading-relaxed text-oat/65">
+                {dressCode.note ?? 'A tonal palette inspired by moonlight, paper, and the sea.'}
+              </p>
+            </div>
+          </Reveal>
+        </div>
+
+        <div className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+          {dressCode.colors.map((color, index) => (
+            <Reveal key={color} delay={index * 0.07}>
+              <motion.div
+                className="group relative overflow-hidden border border-milk/15"
+                whileHover={{ y: -6 }}
+                transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <div
+                  className="aspect-[3/4] w-full transition-transform duration-700 group-hover:scale-[1.03]"
+                  style={{ backgroundColor: color }}
+                />
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-charcoal/65 to-transparent p-4">
+                  <p className="font-sans text-[0.56rem] uppercase tracking-[0.24em] text-milk/80">
+                    {COLOR_NAMES[index] ?? `Tone ${index + 1}`}
+                  </p>
+                  <p className="mt-1 font-sans text-[0.56rem] uppercase tracking-[0.16em] text-milk/45">
+                    {color}
+                  </p>
+                </div>
+              </motion.div>
+            </Reveal>
           ))}
-        </motion.div>
-        
-        {weddingConfig.dressCode.instructions ? (
-          <motion.p 
-            className="text-mocha leading-relaxed"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-          >
-            {weddingConfig.dressCode.instructions}
-          </motion.p>
-        ) : (
-          <motion.p 
-            className="text-mocha font-serif italic"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-          >
-            Dress code details to be announced
-          </motion.p>
-        )}
+        </div>
+
+        <Reveal delay={0.2}>
+          <p className="mt-10 max-w-2xl font-body text-lg italic leading-relaxed text-oat/55">
+            Think evening by the water: soft neutrals, deep charcoal, and a little moonlight.
+          </p>
+        </Reveal>
       </div>
     </section>
-  )
+  );
 }
