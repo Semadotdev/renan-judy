@@ -160,16 +160,16 @@ export default function EnvelopeReveal({ onOpen }: EnvelopeRevealProps) {
             </motion.div>
 
             <div
-              className="absolute inset-y-0 left-0 z-20 w-[54%] bg-oat"
+              className="absolute inset-0 z-20 bg-oat"
               style={{ clipPath: 'polygon(0 0, 0 100%, 100% 100%)' }}
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-mocha/10 to-transparent" />
+              <div className="absolute inset-y-0 left-0 w-[54%] bg-gradient-to-r from-mocha/10 to-transparent" />
             </div>
             <div
-              className="absolute inset-y-0 right-0 z-20 w-[54%] bg-oat"
+              className="absolute inset-0 z-20 bg-oat"
               style={{ clipPath: 'polygon(100% 0, 100% 100%, 0 100%)' }}
             >
-              <div className="absolute inset-0 bg-gradient-to-l from-mocha/10 to-transparent" />
+              <div className="absolute inset-y-0 right-0 w-[54%] bg-gradient-to-l from-mocha/10 to-transparent" />
             </div>
             <div
               className="absolute inset-x-0 bottom-0 z-20 h-[42%] bg-oat"
