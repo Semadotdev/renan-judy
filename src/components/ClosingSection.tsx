@@ -19,10 +19,13 @@ export default function ClosingSection() {
       <div className="relative mx-auto w-full max-w-5xl px-5 text-center sm:px-8">
         <Reveal>
           <Ornament className="mx-auto h-14 w-14 text-taupe" />
-          <p className="eyebrow mt-7 text-taupe">Until we meet again</p>
-          <h2 className="mx-auto mt-5 max-w-4xl text-balance text-[2.8rem] leading-[0.98] tracking-[-0.03em] text-milk sm:text-6xl lg:text-7xl">
-            We cannot wait to celebrate with you.
+          <p className="eyebrow mt-7 text-taupe">{weddingConfig.closing.eyebrow}</p>
+          <h2 className="mx-auto mt-5 max-w-4xl text-balance text-[2.4rem] leading-[1.02] tracking-[-0.03em] text-milk sm:text-5xl lg:text-6xl">
+            {weddingConfig.closing.title}
           </h2>
+          <p className="mx-auto mt-6 max-w-2xl text-pretty font-body text-lg leading-relaxed text-oat/65 sm:text-xl">
+            {weddingConfig.closing.body}
+          </p>
           <div className="mx-auto mt-8 h-px w-24 bg-taupe/50" />
           <p className="mt-6 font-script text-5xl leading-none text-oat sm:text-7xl">
             Judy &amp; Renan
@@ -43,7 +46,7 @@ export default function ClosingSection() {
         </Reveal>
 
         <div className="mt-20 flex flex-col items-center justify-between gap-3 border-t border-milk/10 pt-6 font-sans text-[0.52rem] uppercase tracking-[0.18em] text-milk/25 sm:flex-row">
-          <p>Judy &amp; Renan · A moonlit passage</p>
+          <p>Judy &amp; Renan · A new chapter</p>
           <p>Made with love</p>
         </div>
       </div>

@@ -7,10 +7,10 @@ A complete premium animated wedding invitation website for Judy Castillo and Ren
 - **Cinematic Envelope Reveal** - Interactive opening animation with disappearing wax seal, opening flap, sliding invitation card, and animated ships
 - **Elegant Design** - Uses the exact color palette: Milk (#FBF7F4), Oat (#E5DED2), Taupe (#A39382), Mocha (#685D54), Charcoal (#232323)
 - **Live Countdown** - Real-time countdown to December 28, 2026 in Asia/Manila timezone
-- **All Wedding Sections** - Prologue, hero invitation, our story, countdown, celebration, event details, wedding party, dress code, postcard gallery, RSVP, guestbook, FAQ, and closing scene
+- **All Wedding Sections** - Prologue, hero invitation, our story, countdown, celebration, event details, wedding party, theme overview, dress code, travel notes and accommodation, celebratory gifts, postcard gallery, RSVP, guestbook, FAQ, and closing scene
 - **Chapter Navigation** - Desktop progress rail and a compact mobile chapter bar that track the scroll position
-- **RSVP Form** - Two-step validated form with localStorage storage (ready for Supabase integration)
-- **Guestbook** - A local wishes wall with localStorage storage
+- **RSVP Form** - Two-step validated form emailed to the couple via FormSubmit, with localStorage backup
+- **Guestbook** - A wishes wall emailed to the couple via FormSubmit, with localStorage display
 - **Music Toggle** - Optional royalty-free background music with user-controlled playback
 - **Responsive & Accessible** - Mobile-first design, keyboard navigation, touch friendly, reduced motion support
 - **Ships Animation** - Gentle animated ships throughout the site (replacing butterflies as requested)
@@ -63,28 +63,24 @@ You can easily update:
 - Event details, schedule, venue, map, and calendar fields
 - Story chapters, wedding party, gallery images, and FAQ entries
 - Dress code colors and instructions
-- RSVP and guestbook storage settings
+- Submission email, RSVP deadline, and guestbook settings
 - Music settings
 
 Fields left as `null` or empty render designed "to be announced" placeholders instead of breaking the layout.
 
-## RSVP Backend Integration
+## Email Delivery
 
-The RSVP form currently uses `localStorage` for demonstration. For production:
+RSVP replies and guestbook postcards are sent to the address configured at `weddingConfig.submissions.email` using [FormSubmit](https://formsubmit.co/). The current test recipient is `jiroluismanalo24@gmail.com`.
 
-### Option 1: Supabase (Recommended)
-1. Create a Supabase project at [supabase.com](https://supabase.com)
-2. Create a table called `rsvps` with appropriate columns
-3. Add environment variables:
-```env
-VITE_SUPABASE_URL=your_supabase_url
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
-```
-4. Install Supabase client: `npm install @supabase/supabase-js`
-5. Update `src/components/RSVPForm.tsx` to use Supabase instead of localStorage
+FormSubmit requires one-time activation per recipient:
 
-### Option 2: Other backends
-The form is structured to easily integrate with any backend API. Update the `handleSubmit` function in `RSVPForm.tsx`.
+1. Submit a real RSVP or postcard from the deployed site.
+2. Open the activation email sent to the configured address.
+3. Click the activation link. Until activated, the form shows FormSubmit's error message.
+
+To switch to the launch recipient, update `submissions.email` in `src/config/weddingConfig.ts` and repeat the activation step.
+
+Submissions are also stored in `localStorage` as a local backup, so the guestbook wall still renders entries on the device that created them.
 
 ## Quality Checks
 

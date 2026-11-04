@@ -18,7 +18,7 @@ export default function StoryTimeline() {
         <SectionHeading
           eyebrow="Chapter I"
           title="Our Story"
-          intro="Before the vows, there is the voyage that brought us here."
+          intro="Before the vows, there is the story that brought us here."
         />
 
         {chapters.length > 0 ? (
@@ -60,7 +60,7 @@ export default function StoryTimeline() {
               <div className="relative">
                 <p className="font-display text-7xl leading-none text-taupe/35">&ldquo;</p>
                 <p className="mx-auto -mt-6 max-w-2xl text-balance font-body text-2xl italic leading-relaxed text-mocha sm:text-3xl">
-                  Every love story is a voyage. Theirs is still being written, one chapter at a time.
+                  Every love story is written one chapter at a time. Theirs is still unfolding.
                 </p>
                 <div className="mx-auto my-8 h-px w-20 bg-taupe/50" />
                 <p className="eyebrow text-mocha/60">The next chapter begins</p>

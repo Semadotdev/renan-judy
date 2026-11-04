@@ -1,4 +1,4 @@
-import { Plus } from 'lucide-react';
+import { ArrowUpRight, Plus } from 'lucide-react';
 import { weddingConfig } from '../config/weddingConfig';
 import Ornament from './Ornament';
 import Reveal from './Reveal';
@@ -13,9 +13,9 @@ export default function FAQ() {
 
       <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
         <SectionHeading
-          eyebrow="Chapter IX"
-          title="Before You Sail"
-          intro="A few practical notes for the journey."
+          eyebrow="Chapter XII"
+          title="Before You Go"
+          intro="A few practical notes for the day."
         />
 
         <div className="mt-14 grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
@@ -46,20 +46,27 @@ export default function FAQ() {
                 <p className="eyebrow text-mocha/55">Travel notes</p>
                 <h3 className="mt-4 text-3xl leading-tight text-charcoal">Getting there</h3>
                 <p className="mt-4 font-body text-lg leading-relaxed text-mocha">
-                  Travel, parking, and accommodation notes will be added here once the venue is confirmed.
+                  Nearby resorts and hotels, driving routes, and commute notes are listed in our travel
+                  guide.
                 </p>
+                <a
+                  href="#travel"
+                  className="mt-5 inline-flex items-center gap-2 font-sans text-[0.58rem] uppercase tracking-[0.2em] text-mocha/65 transition-colors hover:text-charcoal"
+                >
+                  See travel notes <ArrowUpRight size={13} strokeWidth={1.4} />
+                </a>
                 <div className="mt-7 border-t border-taupe/30 pt-5">
                   <p className="font-sans text-[0.56rem] uppercase tracking-[0.22em] text-mocha/45">
-                    A note on the evening
+                    A note on the day
                   </p>
                   <p className="mt-2 font-body text-base italic leading-relaxed text-mocha/75">
-                    December evenings can turn cool once the sun sets. A light layer is always a good idea.
+                    Bauan can be warm by midday. Light, breathable fabrics are always a good idea.
                   </p>
                 </div>
                 <div className="mt-7 flex items-center gap-3">
                   <Ornament className="h-9 w-9 text-taupe" />
                   <p className="font-body text-base italic text-mocha/70">
-                    We will share more details as the day draws near.
+                    We look forward to celebrating with you.
                   </p>
                 </div>
               </div>

@@ -73,7 +73,8 @@ export default function InvitationCard() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.85, ease }}
             >
-              A moonlit passage into forever. Join us as we begin the next chapter of our story.
+              A warm, modern celebration of the next chapter we get to write together. Join us as we
+              begin our forever.
             </motion.p>
 
             <motion.div

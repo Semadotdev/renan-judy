@@ -189,29 +189,31 @@ export default function EnvelopeReveal({ onOpen }: EnvelopeRevealProps) {
               transition={{ duration: 1.05, delay: 0.15, ease: [0.22, 1, 0.36, 1] as const }}
             />
 
-            <motion.div
-              className="absolute left-1/2 top-[49%] z-40 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full sm:h-20 sm:w-20"
-              style={{
-                background:
-                  'radial-gradient(circle at 32% 28%, #C0AB94 0%, #A39382 46%, #776858 100%)',
-                boxShadow:
-                  '0 10px 28px rgba(0, 0, 0, 0.35), inset 0 2px 4px rgba(251, 247, 244, 0.35), inset 0 -3px 8px rgba(35, 35, 35, 0.28)',
-              }}
-              animate={
-                isOpening
-                  ? { scale: 0, opacity: 0, rotate: 18 }
-                  : { scale: 1, opacity: 1, rotate: 0 }
-              }
-              transition={{ duration: 0.45, ease: 'easeIn' }}
-            >
-              <svg viewBox="0 0 64 64" className="h-10 w-10 sm:h-12 sm:w-12" aria-hidden="true">
-                <circle cx="32" cy="32" r="19" fill="none" stroke="#3D352E" strokeWidth="0.8" opacity="0.65" />
-                <path d="M22 38 H42 L38 33 H26 L22 38 Z" fill="none" stroke="#3D352E" strokeWidth="1" />
-                <path d="M30 33 L33 25 L36 33 Z" fill="#3D352E" opacity="0.75" />
-                <line x1="33" y1="25" x2="33" y2="33" stroke="#3D352E" strokeWidth="0.7" />
-                <path d="M23 42 Q27.5 39 32 42 T41 42" fill="none" stroke="#3D352E" strokeWidth="0.7" opacity="0.8" />
-              </svg>
-            </motion.div>
+            <div className="pointer-events-none absolute left-1/2 top-1/2 z-40 -translate-x-1/2 -translate-y-1/2">
+              <motion.div
+                className="flex h-16 w-16 items-center justify-center rounded-full sm:h-20 sm:w-20"
+                style={{
+                  background:
+                    'radial-gradient(circle at 32% 28%, #C0AB94 0%, #A39382 46%, #776858 100%)',
+                  boxShadow:
+                    '0 10px 28px rgba(0, 0, 0, 0.35), inset 0 2px 4px rgba(251, 247, 244, 0.35), inset 0 -3px 8px rgba(35, 35, 35, 0.28)',
+                }}
+                animate={
+                  isOpening
+                    ? { scale: 0, opacity: 0, rotate: 18 }
+                    : { scale: 1, opacity: 1, rotate: 0 }
+                }
+                transition={{ duration: 0.45, ease: 'easeIn' }}
+              >
+                <svg viewBox="0 0 64 64" className="h-10 w-10 sm:h-12 sm:w-12" aria-hidden="true">
+                  <circle cx="32" cy="32" r="19" fill="none" stroke="#3D352E" strokeWidth="0.8" opacity="0.65" />
+                  <path d="M22 38 H42 L38 33 H26 L22 38 Z" fill="none" stroke="#3D352E" strokeWidth="1" />
+                  <path d="M30 33 L33 25 L36 33 Z" fill="#3D352E" opacity="0.75" />
+                  <line x1="33" y1="25" x2="33" y2="33" stroke="#3D352E" strokeWidth="0.7" />
+                  <path d="M23 42 Q27.5 39 32 42 T41 42" fill="none" stroke="#3D352E" strokeWidth="0.7" opacity="0.8" />
+                </svg>
+              </motion.div>
+            </div>
           </motion.div>
         </motion.div>
 
@@ -230,7 +232,7 @@ export default function EnvelopeReveal({ onOpen }: EnvelopeRevealProps) {
             Open the invitation
           </button>
           <p className="mt-4 font-body text-sm italic text-oat/45">
-            A moonlit passage into forever
+            A new chapter begins
           </p>
         </motion.div>
       </div>

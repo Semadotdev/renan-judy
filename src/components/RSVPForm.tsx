@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Check, Mail } from 'lucide-react';
 import { weddingConfig } from '../config/weddingConfig';
 import { formatWeddingDate } from '../lib/date';
+import { sendEmailSubmission } from '../lib/emailSubmit';
 import Reveal from './Reveal';
 import SectionHeading from './SectionHeading';
 
@@ -33,6 +34,21 @@ export default function RSVPForm() {
   const [errors, setErrors] = useState<RSVPErrors>({});
   const [step, setStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+
+  const attendingLabel =
+    formData.attending === 'yes' ? 'Joyfully accepting' : 'Regretfully declining';
+  const mailtoHref = `mailto:${weddingConfig.submissions.email}?subject=${encodeURIComponent(
+    `RSVP — ${formData.name.trim() || 'Guest'}`,
+  )}&body=${encodeURIComponent(
+    [
+      `Name: ${formData.name.trim()}`,
+      `Attending: ${attendingLabel}`,
+      `Guests: ${formData.attending === 'yes' ? formData.guests : 0}`,
+      `Message: ${formData.message.trim() || '—'}`,
+    ].join('\n'),
+  )}`;
 
   const validateStep = (index: number): boolean => {
     const nextErrors: RSVPErrors = {};
@@ -61,29 +77,55 @@ export default function RSVPForm() {
     setStep((current) => Math.max(current - 1, 0));
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     if (!validateStep(1)) return;
 
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      const existing = saved ? JSON.parse(saved) : [];
-      localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify([
-          ...existing,
-          {
-            ...formData,
-            submittedAt: new Date().toISOString(),
-          },
-        ]),
-      );
-    } catch (err) {
-      console.warn('RSVP could not be saved', err);
-    }
+    setIsSubmitting(true);
+    setSubmitError('');
 
-    setSubmitted(true);
+    const submittedAt = new Date().toISOString();
+
+    try {
+      await sendEmailSubmission({
+        subject: `New RSVP — ${formData.name.trim()} (${attendingLabel})`,
+        fields: {
+          Name: formData.name.trim(),
+          Attending: attendingLabel,
+          Guests: formData.attending === 'yes' ? formData.guests : 0,
+          Message: formData.message.trim() || '—',
+          'Submitted at': submittedAt,
+        },
+      });
+
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        const existing = saved ? JSON.parse(saved) : [];
+        localStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify([
+            ...existing,
+            {
+              ...formData,
+              submittedAt,
+            },
+          ]),
+        );
+      } catch (err) {
+        console.warn('RSVP could not be saved', err);
+      }
+
+      setSubmitted(true);
+    } catch (err) {
+      setSubmitError(
+        err instanceof Error
+          ? err.message
+          : 'Your reply could not be sent. Please try again.',
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (!weddingConfig.rsvp.enabled) return null;
@@ -92,7 +134,7 @@ export default function RSVPForm() {
     <section id="rsvp" className="relative overflow-hidden bg-milk py-24 text-charcoal sm:py-32">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionHeading
-          eyebrow="Chapter VIII"
+          eyebrow="Chapter X"
           title="Reply"
           intro="Let us know if you will be joining us for the celebration."
         />
@@ -114,7 +156,7 @@ export default function RSVPForm() {
                 <div className="flex items-center gap-3 text-oat/60">
                   <Mail size={15} strokeWidth={1.4} className="text-taupe" />
                   <p className="font-body text-base">
-                    Your response is saved privately on this device for now.
+                    Your response is sent privately to the couple.
                   </p>
                 </div>
                 <div className="flex items-center gap-3 text-oat/60">
@@ -161,6 +203,7 @@ export default function RSVPForm() {
                       onClick={() => {
                         setSubmitted(false);
                         setStep(0);
+                        setSubmitError('');
                       }}
                       className="mt-8 font-sans text-[0.6rem] uppercase tracking-[0.22em] text-mocha/60 underline decoration-taupe/50 underline-offset-8 transition-colors hover:text-charcoal"
                     >
@@ -320,7 +363,7 @@ export default function RSVPForm() {
                               value={formData.message}
                               onChange={(event) => setFormData({ ...formData, message: event.target.value })}
                               className="mt-2 field resize-none"
-                              placeholder="A wish, a memory, or a note for the voyage..."
+                              placeholder="A wish, a memory, or a note for the day..."
                             />
                           </label>
                         </motion.div>
@@ -354,12 +397,27 @@ export default function RSVPForm() {
                       ) : (
                         <button
                           type="submit"
-                          className="cinematic-link border-mocha/30 text-charcoal hover:bg-mocha/5"
+                          disabled={isSubmitting}
+                          className="cinematic-link border-mocha/30 text-charcoal hover:bg-mocha/5 disabled:opacity-40"
                         >
-                          Send reply <ArrowRight size={14} strokeWidth={1.4} />
+                          {isSubmitting ? 'Sending reply...' : 'Send reply'}{' '}
+                          <ArrowRight size={14} strokeWidth={1.4} />
                         </button>
                       )}
                     </div>
+
+                    {submitError && (
+                      <p role="alert" className="mt-5 font-body text-sm italic leading-relaxed text-mocha">
+                        {submitError}{' '}
+                        <a
+                          href={mailtoHref}
+                          className="underline decoration-taupe/50 underline-offset-4 transition-colors hover:text-charcoal"
+                        >
+                          Email us directly
+                        </a>
+                        .
+                      </p>
+                    )}
                   </motion.form>
                 )}
               </AnimatePresence>

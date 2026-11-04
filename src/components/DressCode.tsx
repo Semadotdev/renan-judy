@@ -3,7 +3,7 @@ import { weddingConfig } from '../config/weddingConfig';
 import Reveal from './Reveal';
 import SectionHeading from './SectionHeading';
 
-const COLOR_NAMES = ['Milk', 'Oat', 'Taupe', 'Mocha', 'Charcoal'];
+const COLOR_NAMES = ['Oat', 'Taupe', 'Mocha', 'Milk', 'Charcoal'];
 
 export default function DressCode() {
   const { dressCode } = weddingConfig;
@@ -15,17 +15,20 @@ export default function DressCode() {
       <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
         <div className="grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:items-end lg:gap-20">
           <SectionHeading
-            eyebrow="Chapter V"
+            eyebrow="Chapter VI"
             title="Dress Code"
-            intro={dressCode.instructions ?? 'Come dressed in the colours of the evening.'}
+            intro={dressCode.title}
             dark
           />
 
           <Reveal delay={0.1}>
             <div className="border-t border-taupe/25 pt-7">
-              <p className="eyebrow text-taupe">The palette</p>
-              <p className="mt-4 max-w-md font-body text-lg leading-relaxed text-oat/65">
-                {dressCode.note ?? 'A tonal palette inspired by moonlight, paper, and the sea.'}
+              <p className="eyebrow text-taupe">Comfortable elegance</p>
+              <p className="mt-4 max-w-xl font-body text-lg leading-relaxed text-oat/65">
+                {dressCode.instructions}
+              </p>
+              <p className="mt-4 max-w-xl font-body text-base italic leading-relaxed text-oat/50">
+                {dressCode.note}
               </p>
             </div>
           </Reveal>
@@ -56,10 +59,34 @@ export default function DressCode() {
           ))}
         </div>
 
+        <div className="mt-10 grid gap-4 md:grid-cols-2">
+          <Reveal>
+            <div className="h-full border border-milk/15 p-6">
+              <p className="eyebrow text-taupe">Ninongs &amp; Ninangs</p>
+              <p className="mt-3 font-body text-base leading-relaxed text-oat/70">
+                {dressCode.formal}
+              </p>
+            </div>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <div className="h-full border border-milk/15 p-6">
+              <p className="eyebrow text-taupe">Dear guests</p>
+              <p className="mt-3 font-body text-base leading-relaxed text-oat/70">
+                {dressCode.guests}
+              </p>
+            </div>
+          </Reveal>
+        </div>
+
         <Reveal delay={0.2}>
-          <p className="mt-10 max-w-2xl font-body text-lg italic leading-relaxed text-oat/55">
-            Think evening by the water: soft neutrals, deep charcoal, and a little moonlight.
-          </p>
+          <div className="mt-10 flex flex-col gap-4 border-t border-taupe/20 pt-6 sm:flex-row sm:items-center sm:justify-between">
+            <p className="font-sans text-[0.6rem] uppercase tracking-[0.24em] text-taupe">
+              {dressCode.palette}
+            </p>
+            <p className="max-w-2xl font-body text-lg italic leading-relaxed text-oat/55">
+              {dressCode.closing}
+            </p>
+          </div>
         </Reveal>
       </div>
     </section>

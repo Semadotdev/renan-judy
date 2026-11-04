@@ -21,8 +21,8 @@ const FALLBACK_ITEMS: GalleryItem[] = [
     motif: 'envelope',
   },
   {
-    alt: 'A ship crossing a moonlit sea',
-    caption: 'The voyage',
+    alt: 'A ship crossing a quiet sea',
+    caption: 'The journey',
     motif: 'ship',
   },
   {
@@ -215,9 +215,9 @@ export default function Gallery() {
     <section id="gallery" className="relative overflow-hidden py-24 text-milk sm:py-32">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <SectionHeading
-          eyebrow="Chapter VI"
+          eyebrow="Chapter IX"
           title="Postcards"
-          intro="A few keepsakes from the voyage. Photographs will join them as the story unfolds."
+          intro="A few keepsakes from our story. Photographs will join them as the day unfolds."
           dark
         />
 

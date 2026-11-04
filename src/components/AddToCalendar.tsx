@@ -27,7 +27,7 @@ export default function AddToCalendar() {
         <p className="eyebrow text-taupe">Keep the date</p>
         <h3 className="mt-4 text-3xl leading-tight text-milk">Take the date with you.</h3>
         <p className="mt-3 max-w-sm font-body text-lg leading-relaxed text-oat/65">
-          Add {formatWeddingDate(weddingConfig.date)} to your calendar so you do not miss the beginning of the voyage.
+          Add {formatWeddingDate(weddingConfig.date)} to your calendar so you do not miss the beginning of our celebration.
         </p>
       </div>
       <button

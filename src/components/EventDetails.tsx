@@ -15,9 +15,11 @@ interface EventCardProps {
 
 function EventCard({ eyebrow, title, detail, dark = false }: EventCardProps) {
   const hasDetail = Boolean(detail.time || detail.venue || detail.address);
-  const mapUrl = detail.mapQuery
-    ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(detail.mapQuery)}`
-    : null;
+  const mapUrl =
+    detail.mapUrl ??
+    (detail.mapQuery
+      ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(detail.mapQuery)}`
+      : null);
 
   return (
     <motion.article
@@ -95,6 +97,7 @@ function MapCard() {
     weddingConfig.map.url ??
     (query ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}` : null);
   const locationLabel =
+    weddingConfig.map.label ??
     ceremony.venue ??
     ceremony.address ??
     reception.venue ??

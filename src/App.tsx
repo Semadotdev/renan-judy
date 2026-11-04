@@ -9,6 +9,7 @@ import EnvelopeReveal from './components/EnvelopeReveal';
 import EventDetails from './components/EventDetails';
 import FAQ from './components/FAQ';
 import Gallery from './components/Gallery';
+import Gifts from './components/Gifts';
 import Guestbook from './components/Guestbook';
 import InvitationCard from './components/InvitationCard';
 import MusicToggle from './components/MusicToggle';
@@ -17,6 +18,8 @@ import Reveal from './components/Reveal';
 import RSVPForm from './components/RSVPForm';
 import SectionHeading from './components/SectionHeading';
 import StoryTimeline from './components/StoryTimeline';
+import ThemeOverview from './components/ThemeOverview';
+import TravelNotes from './components/TravelNotes';
 import WeddingParty from './components/WeddingParty';
 import { weddingConfig } from './config/weddingConfig';
 
@@ -27,7 +30,10 @@ const CHAPTERS: Chapter[] = [
   { id: 'celebration', label: 'Celebration' },
   { id: 'day', label: 'The Day' },
   { id: 'party', label: 'By Our Side' },
+  { id: 'theme', label: 'The Theme' },
   { id: 'dress', label: 'Dress Code' },
+  { id: 'travel', label: 'Travel' },
+  { id: 'gifts', label: 'Gifts' },
   { id: 'gallery', label: 'Postcards' },
   { id: 'rsvp', label: 'Reply' },
   { id: 'wishes', label: 'Wishes' },
@@ -94,7 +100,7 @@ function App() {
                     <SectionHeading
                       eyebrow="Chapter II"
                       title="Until the Day"
-                      intro="The tide is turning. Every second brings us closer to the beginning."
+                      intro="Every second brings us closer to the beginning."
                       align="center"
                       dark
                     />
@@ -130,7 +136,10 @@ function App() {
 
                 <EventDetails />
                 <WeddingParty />
+                <ThemeOverview />
                 <DressCode />
+                <TravelNotes />
+                <Gifts />
                 <Gallery />
                 <RSVPForm />
                 <Guestbook />

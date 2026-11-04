@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { PenLine } from 'lucide-react';
+import { weddingConfig } from '../config/weddingConfig';
+import { sendEmailSubmission } from '../lib/emailSubmit';
 import Reveal from './Reveal';
 import SectionHeading from './SectionHeading';
 
@@ -31,6 +33,7 @@ export default function Guestbook() {
   });
   const [status, setStatus] = useState<'idle' | 'submitting' | 'submitted'>('idle');
   const [error, setError] = useState('');
+  const [submitError, setSubmitError] = useState('');
 
   useEffect(() => {
     try {
@@ -43,15 +46,17 @@ export default function Guestbook() {
     }
   }, []);
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     if (!form.name.trim() || !form.message.trim()) {
       setError('A name and wish are needed to leave a postcard.');
+      setSubmitError('');
       return;
     }
 
     setError('');
+    setSubmitError('');
     setStatus('submitting');
 
     const entry: GuestbookEntry = {
@@ -62,28 +67,57 @@ export default function Guestbook() {
       submittedAt: new Date().toISOString(),
     };
 
-    const next = [entry, ...entries].slice(0, 50);
-    setEntries(next);
-
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+      await sendEmailSubmission({
+        subject: `New postcard — ${entry.name}`,
+        fields: {
+          Name: entry.name,
+          From: entry.location || '—',
+          Postcard: entry.message,
+          'Submitted at': entry.submittedAt,
+        },
+      });
+
+      const next = [entry, ...entries].slice(0, 50);
+      setEntries(next);
+
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+      } catch (err) {
+        console.warn('Guestbook could not be saved', err);
+      }
+
+      setForm({ name: '', message: '', location: '' });
+      setStatus('submitted');
+
+      window.setTimeout(() => setStatus('idle'), 3800);
     } catch (err) {
-      console.warn('Guestbook could not be saved', err);
+      setSubmitError(
+        err instanceof Error
+          ? err.message
+          : 'Your postcard could not be sent. Please try again.',
+      );
+      setStatus('idle');
     }
-
-    setForm({ name: '', message: '', location: '' });
-    setStatus('submitted');
-
-    window.setTimeout(() => setStatus('idle'), 3800);
   };
+
+  const mailtoHref = `mailto:${weddingConfig.submissions.email}?subject=${encodeURIComponent(
+    `Postcard — ${form.name.trim() || 'Guest'}`,
+  )}&body=${encodeURIComponent(
+    [
+      `Name: ${form.name.trim()}`,
+      `From: ${form.location.trim() || '—'}`,
+      `Postcard: ${form.message.trim()}`,
+    ].join('\n'),
+  )}`;
 
   return (
     <section id="wishes" className="relative overflow-hidden py-24 text-milk sm:py-32">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionHeading
-          eyebrow="Chapter VII"
-          title="Wishes for the Voyage"
-          intro="Leave us a message for the passage ahead."
+          eyebrow="Chapter XI"
+          title="Wishes for the Day"
+          intro="Leave us a message for the road ahead."
           dark
         />
 
@@ -140,7 +174,22 @@ export default function Guestbook() {
                 </label>
               </div>
 
-              {error && <p className="mt-4 font-body text-sm text-oat/60">{error}</p>}
+              {error && (
+                <p className="mt-4 font-body text-sm leading-relaxed text-oat/60">{error}</p>
+              )}
+
+              {submitError && (
+                <p role="alert" className="mt-4 font-body text-sm leading-relaxed text-oat/60">
+                  {submitError}{' '}
+                  <a
+                    href={mailtoHref}
+                    className="underline decoration-taupe/50 underline-offset-4 transition-colors hover:text-milk"
+                  >
+                    Email us directly
+                  </a>
+                  .
+                </p>
+              )}
 
               <button
                 type="submit"
@@ -158,7 +207,7 @@ export default function Guestbook() {
               </button>
 
               <p className="mt-5 font-sans text-[0.54rem] uppercase tracking-[0.18em] text-oat/35">
-                Wishes are saved to this device for now.
+                Your postcard is sent privately to the couple.
               </p>
             </form>
           </Reveal>
@@ -169,7 +218,7 @@ export default function Guestbook() {
                 <div className="border border-taupe/25 px-6 py-12 text-center">
                   <p className="font-display text-4xl text-milk/90">Fair winds.</p>
                   <p className="mt-3 font-body text-lg italic text-oat/55">
-                    Be the first to cast a wish onto the tide.
+                    Be the first to leave a wish.
                   </p>
                 </div>
               </Reveal>
